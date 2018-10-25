@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+<!--
+  DO NOT SIMPLY COPY THOSE LINES. Download the JS and CSS files from the
+  latest release (https://github.com/enyo/dropzone/releases/latest), and
+  host them yourself!
+-->
+
+<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+
+<!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+<script type="text/javascript">
+
+$(document).ready( function() {
+    $("#submit_btn").click( function(event) {
+        var error = null;
+        var name = document.getElementById('name');
+        var phone = document.getElementById('Contact_Number__c');
+        var email = document.getElementById('Email__c');
+        var resume = document.getElementById('id_resumeFile');
+        var phoneno_pattern = /^\d{10}$/;
+        var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+        if (name.value == null || name.value == "" || name.value.length == 0) {
+            error = " Enter a valid Name !!! ";
+            name.focus();
+        } else if ( phone.value == '' ||phone.value == null || !(phone.value.match(phoneno_pattern)) ) {
+            error = "Enter a valid Phone number field !!! ";
+            phone.focus();
+        }
+        else if(!email.value.match(mailformat))
+        {
+            error = "Email field not filled or invalid field value !!!";
+            email.focus();
+        }
+        else if (resume.files.length == 0 ) {
+            error = "Upload your resume !!!";
+            resume.focus();
+        }
+        else {
+            error = null;
+        }
+        if (error == null) {
+            document.getElementById('spin_div').style.visibility = 'visible';
+            document.getElementById("usrform").submit();
+        }
+        else {
+         var x = document.getElementById("toast")
+            x.className = "show";
+            $("#desc").html(error);
+		   setTimeout(function(){ x.className = x.className.replace("show", ""); },3000);
+        }
+    });
+    setTimeout(function() {
+     $('#final_msg').fadeOut();
+    }, 1800 );
+    document.getElementById('error_msg').html("Error");
+});
+</script>
+
+<style>
+.files input {
+    outline: 2px dashed #92b0b3;
+    outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    padding: 120px 0px 85px 35%;
+    text-align: center !important;
+    margin: 0;
+    width: 100% !important;
+}
+.files input:focus{     outline: 2px dashed #92b0b3;  outline-offset: -10px;
+    -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+    transition: outline-offset .15s ease-in-out, background-color .15s linear; border:1px solid #92b0b3;
+ }
+.files{ position:relative}
+.files:after {  pointer-events: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 50px;
+    right: 0;
+    height: 56px;
+    content: "";
+    background-image: url(https://image.flaticon.com/icons/png/128/109/109612.png);
+    display: block;
+    margin: 0 auto;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.color input{ background-color:#f1f1f1; height:150%;}
+.files:before {
+    position: absolute;
+    bottom: 10px;
+    left: 0;  pointer-events: none;
+    width: 60%;
+    height: 25%;
+    right: 0;
+    height: 57px;
+    content: " or drag it here. ";
+    display: block;
+    margin: 0 auto;
+    color: #2ea591;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+/* Add refresh button */
+.buttonload {
+    background-color: #4CAF50; /* Green background */
+    border: none; /* Remove borders */
+    color: white; /* White text */
+    padding: 12px 24px; /* Some padding */
+    font-size: 16px; /* Set a font-size */
+}
+
+/* Add a right margin to each icon */
+.fa {
+    margin-left: -12px;
+    margin-right: 8px;
+}
+
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+
+/* Set a style for all buttons */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 8px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+#alertbtn {
+        padding: 0px;
+    margin: 0px;
+}
+
+button:hover {
+    opacity:1;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+    padding: 16px;
+}
+
+/* Style the horizontal ruler */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+    .cancelbtn, .signupbtn {
+       width: 100%;
+    }
+}
+
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+.se-pre-con {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url("https://i0.wp.com/www.dynamocoop.be/wp-content/uploads/2015/10/spin.gif") center no-repeat #fff;
+}
+.form-wrapper input {
+    box-sizing: border-box;
+}
+.main-padding {
+    padding:2% 5% 2% 5%;
+}
+.message-position {
+    position: absolute;
+    width:100%;
+}
+.blur_spinner {
+    visibility: hidden;
+    opacity: .6;
+}
+
+
+#toast {
+    visibility: hidden;
+    max-width: 50px;
+    height: 50px;
+    /*margin-left: -125px;*/
+    margin: auto;
+    background-color: #ff6363;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+
+    position: fixed;
+    z-index: 1;
+    left: 0;right:0;
+    bottom: 30px;
+    font-size: 17px;
+    white-space: nowrap;
+}
+#toast #img{
+	width: 50px;
+	height: 50px;
+
+    float: left;
+
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+    box-sizing: border-box;
+
+
+    background-color: #ff6363;
+    color: #fff;
+}
+#toast #desc{
+
+
+    color: #fff;
+
+    padding: 16px;
+
+    overflow: hidden;
+	white-space: nowrap;
+}
+
+#toast.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 2s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, expand 0.5s 0.5s,stay 3s 1s, shrink 0.5s 4s, fadeout 0.5s 4.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes expand {
+    from {min-width: 50px}
+    to {min-width: 350px}
+}
+
+@keyframes expand {
+    from {min-width: 50px}
+    to {min-width: 350px}
+}
+@-webkit-keyframes stay {
+    from {min-width: 350px}
+    to {min-width: 350px}
+}
+
+@keyframes stay {
+    from {min-width: 350px}
+    to {min-width: 350px}
+}
+@-webkit-keyframes shrink {
+    from {min-width: 350px;}
+    to {min-width: 50px;}
+}
+
+@keyframes shrink {
+    from {min-width: 350px;}
+    to {min-width: 50px;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 60px; opacity: 0;}
+}
+
+input.text, input.title, input[type=email], input[type=password], input[type=tel], input[type=text], select, textarea {
+    background-color: #fefefe !important;
+    color: #000 !important;
+    margin-bottom: 15px;
+}
+.dark-bg {
+	background-color: #313a43!important;
+    color: white;
+    padding: 10% 10% 10% 10%;
+}
+</style>
+
+<body style="background-color: #313a43!important;">
+<!--<div id="toast">-->
+	<!--<div id="img" ><span class="glyphicon glyphicon-warning-sign"> </span></div>-->
+	<!--<div id="desc"></div>-->
+<!--</div>-->
+    <div class="message-position">
+    {% if messages %}
+    {% for msg in messages %}
+        <div id="final_msg" class="alert alert-{% ifequal msg.tags 'error' %}danger{% else %}{{msg.tags}}{% endifequal %} alert-dismissable">
+            <button type="button" id="alertbtn" class="close" onclick="return close_message();" aria-hidden="true" data-dismiss="alert">&times;</button>
+            {{msg.tags|title}}: {{msg.message}}
+        </div>
+    {% endfor %}
+    {% endif %}
+    </div>
+<div>
+    <div id="spin_div" class="se-pre-con blur_spinner">
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-body dark-bg " >
+            <form role="form" id="usrform" name="usrform" action='{% url "upload" %}' method="POST" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <!--<div class="well well-sm">-->
+                    <!--<small><span class="glyphicon glyphicon-user"> </span></small>-->
+                    <!--<span>&nbsp; Personal Information</span>-->
+                <!--</div>-->
+                    <div class="form-group">
+                        <label for="name">
+                            <span style="color:red;">*</span> Your Name
+                        </label>
+                        <input type="text" name="name" class="form-control" value="{{name}}" id="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Contact_Number__c">
+                            <span style="color:red;">*</span> Contact no.
+                        </label>
+                        <input type="tel" class="form-control" value="{{phone}}" minlength="10" maxlength="10" id="Contact_Number__c" pattern="[0-9]+"  name="Contact_Number__c" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="Email__c">
+                            <span style="color:red;">*</span> Your Email
+                        </label>
+                        <input type="email" class="form-control" value="{{email}}" id="Email__c" name="Email__c" required />
+                    </div>
+                    <div class="form-group color">
+                        <label for="id_resumeFile" ><span style="color:red;">*</span> Resume</label>
+                        <div>
+                            <p class="drag-label">drag and drop file
+                                <small><span class="glyphicon glyphicon-upload"> </span></small>
+                      <input type="file" value="{{file}}" class="form-control" id="id_resumeFile" name="resumeFile" required />
+                       </p>
+                        </div>
+                    </div>
+                <div class="form-group">
+                  <label for="Designation__c"><span style="color:red;">*</span> Position applied for</label>
+                  <select class="form-control"  id="Designation__c" name="Designation__c" required>
+                      {% for item in designations %}
+                      <option {% ifequal item designation %}selected{% endifequal %}>{{item}}</option>
+                      {% endfor %}
+                  </select>
+                </div>
+                <button type="submit" id="submit_btn" class="btn btn-primary" >
+                    Save
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

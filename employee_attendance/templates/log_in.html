@@ -1,0 +1,49 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% static "admin/css/login.css" %}" />
+{{ form.media }}
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login{% endblock %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block title %}{{ title }} | {{ site_title|default:_('Cloud Analogy admin') }}{% endblock %}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Cloud Analogy') }}</a></h1>
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div style="" >
+        <div class="tm-section mt-5 tm-section-pad tm-bg-img tm-position-relative" id="tm-section-6">
+            <div class="container ie-h-align-center-fix mt-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="tm-bg-white tm-p-4">
+                            <form method="post" action="{% url 'employee_attendance:login' %}" >
+                                {% csrf_token %}
+
+                                 <div class="form-row">
+                                    {{ form.username.errors }}
+                                    {{ form.username.label_tag }} {{ form.username }}
+                                 </div>
+                                 <div class="form-row">
+                                    {{ form.password.errors }}
+                                    {{ form.password.label_tag }} {{ form.password }}
+                                    <input type="hidden" name="next" value="{{ next }}" />
+                                  </div>
+
+                                <div class="submit-row">
+                                 <label>&nbsp;</label><input type="submit" value="Log in" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

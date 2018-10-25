@@ -1,0 +1,169 @@
+{% extends "admin/base_site.html" %}
+{% load bootstrap4 %}
+{% block title %}{{ title }} | {{ site_title|default:_('Cloud Analogy admin') }}{% endblock %}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Cloud Analogy') }}</a></h1>
+{% endblock %}
+{% block usertools %}
+<div id="user-tools">
+    {% block welcome-msg %}
+    <strong>Welcome {{ request.session.ca_user }}</strong>.
+    {% endblock %}
+    {% block userlinks %}
+    <a href="">Change password</a> /
+    <a href="{% url 'employee_attendance:logout' %}">Log out</a>
+    {% endblock %}
+</div>
+{% endblock %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    {% if 'ca_user' in request.session and request.session.ca_user != "" %}
+    <a href="{% url 'employee_attendance:login' %}" class="nav-link">home</a>|
+    <a href="{% url 'employee_attendance:attendance_details' %}" class="nav-link">attendance</a>|
+    <a href="{% url 'employee_attendance:apply_leaves' %}" class="nav-link">Apply Leave</a>|
+    <a href="{% url 'employee_attendance:leave_details' %}" class="nav-link">Leave Details</a>|
+    <a href="{% url 'employee_attendance:apply_reimbursement' %}" class="nav-link">Apply for Reimbursement</a>|
+    <a href="{% url 'employee_attendance:reimbursement_details' %}" class="nav-link">Reimbursement Details</a>|
+    <a href="{% url 'employee_attendance:holiday_details' %}" class="nav-link">Holiday Details</a>
+    {% endif %}
+</div>
+{% endblock %}
+{% block extrahead %}
+{{block.super}}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- datatable -->
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<!--datetimepicker-->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+<style>
+    @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (-webkit-min-device-pixel-ratio: 2)
+    {
+        .col-sm-4{
+          max-width: 99%!important;
+          width: 98%;
+        }
+        .mobile-width{
+                  display: flex !important;
+        }
+
+    }
+    @media only screen and (min-device-width : 240px) and (max-device-width : 768px) and (-webkit-min-device-pixel-ratio: 2)
+    {
+        .col-sm-4{
+          max-width: 99%!important;
+          width: 98%;
+        }
+
+    }
+     @media only screen and (min-device-width : 320px) and (max-device-width : 568px)
+    {
+        .mobile-css{
+          margin: 20px 4px 20px 4px!important;
+          padding: 0px 2px 0px 2px;
+        }
+        .mobile-width{
+
+            display: inline-flex;
+            }
+
+    }
+#id_resumeFile {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#drop-area {
+  border: 2px dashed #ccc;
+  border-radius: 20px;
+  width: 480px;
+  font-family: sans-serif;
+  margin: 100px auto;
+  padding: 20px;
+}
+#drop-area.highlight {
+  border-color: purple;
+}
+p {
+  margin-top: 0;
+}
+.my-form {
+  margin-bottom: 10px;
+}
+#gallery {
+  margin-top: 10px;
+}
+#gallery img {
+  width: 150px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+.button {
+  display: inline-block;
+  padding: 10px;
+  background: #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.button:hover {
+  background: #ddd;
+}
+#fileElem {
+  display: none;
+}
+
+
+</style>
+
+<script>
+    let dropArea = document.getElementById('drop-area')
+
+    function uploadFile(file) {
+  var url = 'YOUR URL HERE'
+  var xhr = new XMLHttpRequest()
+  var formData = new FormData()
+  xhr.open('POST', url, true)
+
+  xhr.addEventListener('readystatechange', function(e) {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      // Done. Inform the user
+    }
+    else if (xhr.readyState == 4 && xhr.status != 200) {
+      // Error. Inform the user
+    }
+  })
+
+  formData.append('file', file)
+  xhr.send(formData)
+}
+</script>
+{% endblock %}
+{% block messages %}
+{% if messages %}
+{% for msg in messages %}
+<div class="alert alert-{% ifequal msg.tags 'error' %}danger{% else %}{{msg.tags}}{% endifequal %} alert-dismissable">
+    <button type="button" class="close" onclick="return close_message();" aria-hidden="true" data-dismiss="alert">
+        &times;
+    </button>
+    {{msg.tags|title}}: {{msg.message}}
+</div>
+{% endfor %}
+{% endif %}
+{% endblock messages %}

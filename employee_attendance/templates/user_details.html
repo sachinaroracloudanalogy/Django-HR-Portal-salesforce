@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container h-100 align-middle" xmlns="http://www.w3.org/1999/html">
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-strip text-justify">
+				<caption style="background-color:#417690;color:white;"><b>&nbsp;Employee Details</b></caption>
+				<tbody>
+					<tr>
+						<th>
+							Employee Id
+						</th>
+						<td>
+							{{ item.Employee_Id__c}}
+						</td>
+
+					</tr>
+					<tr class="table-active">
+						<th>
+							Name
+						</th>
+						<td>
+							{{ item.Name}}
+						</td>
+					</tr>
+					<tr class="table-success">
+						<th>
+							Date of birth
+						</th>
+						<td>
+							{{ item.dob__c}}
+						</td>
+					</tr>
+					<tr class="table-warning">
+						<th>
+							Designation
+						</th>
+						<td>
+							{{ item.designation__c}}
+						</td>
+					</tr>
+					<tr class="table-danger">
+						<th>
+							Address
+						</th>
+						<td>
+							{{ item.address__c}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+    <div style="text-align:center;">
+    			<div class=""  role="group">
+
+				<button class="btn btn-success" {% ifequal attend  True %} disabled{% endifequal %} onclick="window.location.href='{% url 'employee_attendance:attend_in' %}'" button">
+					punch - in
+				</button>
+
+				<button class="btn btn-danger" {% ifnotequal attend  True %} disabled{% endifnotequal %} onclick="window.location.href='{% url 'employee_attendance:attend_out' %}'">
+					punch - out
+				</button>
+			</div>
+    </div>
+</div>
+</div>
+{% endblock %}

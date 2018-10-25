@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+{% load bootstrap4 %}
+<div class="container h-80 align-middle" xmlns="http://www.w3.org/1999/html">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-8">
+            <form role="form" method ="post" action="{% url 'employee_attendance:apply_reimbursement' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="submit"  class="btn btn-success" value="submit">
+            </form>
+      </div>
+    </div>
+</div>
+</div>
+{% endblock %}

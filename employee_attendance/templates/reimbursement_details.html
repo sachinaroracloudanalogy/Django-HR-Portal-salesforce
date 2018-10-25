@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load bootstrap4 %}
+{% block content %}
+{% load table_tags %}
+<div class="container h-100 align-middle" xmlns="http://www.w3.org/1999/html">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <form role="form" method ="post" action="{% url 'employee_attendance:reimbursement_details' %}">
+                    <div class="form-group">
+                        {% csrf_token %}
+                        {{form.as_table}}
+                    </div>
+                    <input type="submit"  class="btn btn-primary" />
+                </form>
+            </div>
+        </div>
+    </div><br/><br/>
+    {% if table %}
+       <div class="card">
+           <div class="card-body">
+               <div class="table-wrapper-2">
+                   <table class="table table-responsive-md">
+                        <caption style="background-color:#417690;color:white;"><b>&nbsp;Reimbursement Details</b></caption>
+                        {% render_table table  %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
